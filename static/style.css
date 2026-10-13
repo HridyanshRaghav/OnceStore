@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('background.png');
+    color: #333;
+    background-size: cover;          /* इमेज को पूरी स्क्रीन पर कवर करेगा */
+    background-position: center;      /* इमेज को सेंटर में रखेगा */
+    background-repeat: no-repeat;    /* इमेज को बार-बार दोहराने से रोकेगा */
+    background-attachment: fixed;    /* पेज स्क्रॉल करने पर बैकग्राउंड फिक्स रहेगा */
+    min-height: 100vh;               /* पूरे व्यूपोर्ट की हाइट कवर करने के लिए */
+}
+
+nav {
+    background-color: #3c3295;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+
+.container {
+    max-width: 600px;
+    margin: 3rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 17px -9px 6px rgb(35 65 112 / 82%);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #3c3295;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3c3295;
+}
+
+.alert {
+    padding: 0.8rem;
+    background-color: #f8d7da;
+    color: #721c24;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+ul {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Account Login</h2>
+<form method="POST" style="margin-top: 1rem;">
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <div style="position: relative; display: flex; align-items: center;">
+            <input type="password" id="loginPassword" name="password" required style="padding-right: 40px;">
+            <span onclick="togglePassword('loginPassword', this)" style="position: absolute; right: 10px; cursor: pointer; user-select: none;">👁️</span>
+        </div>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<script>
+function togglePassword(inputId, icon) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.textContent = "🙈";
+    } else {
+        input.type = "password";
+        icon.textContent = "👁️";
+    }
+}
+</script>
+{% endblock %}

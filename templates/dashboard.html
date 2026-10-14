@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnceStore - Dashboard</title>
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --upload-bg: #f8f9fa;
+            --footer-text: #64748b;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --nav-bg: #1e293b;
+            --border-color: #334155;
+            --upload-bg: #1e293b;
+            --footer-text: #94a3b8;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,21 +33,23 @@
         }
 
         body {
-            background-color: #f4f7f6;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             padding: 2rem;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 750px;
             margin: 0 auto;
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             flex: 1;
             width: 100%;
         }
@@ -36,23 +58,35 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #ecf0f1;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .theme-btn, .logout-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            margin-right: 10px;
         }
 
         .logout-btn {
             background-color: #e74c3c;
             color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
+            border: none;
         }
 
         .upload-card {
-            background: #f8f9fa;
-            border: 2px dashed #cbd5e1;
+            background: var(--upload-bg);
+            border: 2px dashed var(--border-color);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 2rem;
@@ -70,12 +104,13 @@
 
         input[type="file"] {
             padding: 0.4rem;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
-            background: #fff;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
 
-        button {
+        button[type="submit"] {
             background-color: #3498db;
             color: white;
             padding: 0.6rem 1.2rem;
@@ -85,10 +120,6 @@
             font-weight: bold;
         }
 
-        button:hover {
-            background-color: #2980b9;
-        }
-
         .file-list {
             list-style: none;
             padding: 0;
@@ -96,15 +127,14 @@
         }
 
         .file-item {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 0.9rem 1.2rem;
             margin-bottom: 0.8rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .file-info {
@@ -112,7 +142,7 @@
             align-items: center;
             gap: 10px;
             font-weight: 500;
-            color: #334155;
+            color: var(--text-color);
             word-break: break-all;
         }
 
@@ -130,11 +160,6 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .btn-view:hover {
-            background-color: #2980b9;
         }
 
         .btn-download {
@@ -145,11 +170,6 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .btn-download:hover {
-            background-color: #219150;
         }
 
         .btn-delete {
@@ -161,16 +181,11 @@
             font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .btn-delete:hover {
-            background-color: #c0392b;
         }
 
         .empty-state {
             text-align: center;
-            color: #94a3b8;
+            color: var(--footer-text);
             padding: 2rem 0;
             font-style: italic;
         }
@@ -187,9 +202,9 @@
             margin-top: 3rem;
             text-align: center;
             padding: 1rem;
-            color: #64748b;
+            color: var(--footer-text);
             font-size: 0.85rem;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
         }
         footer a {
             color: #3498db;
@@ -197,13 +212,16 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <div class="container">
         <!-- Header -->
         <div class="header">
             <h2>Welcome, {{ user.username }}! 👋</h2>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            <div style="display: flex; align-items: center;">
+                <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">🌙 Dark</button>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
         </div>
 
         {% with messages = get_flashed_messages() %}
@@ -216,7 +234,7 @@
 
         <!-- Direct Upload Card -->
         <div class="upload-card">
-            <h3 style="color: #475569; font-size: 1.1rem;">Upload File to OnceStore</h3>
+            <h3 style="font-size: 1.1rem;">Upload File to OnceStore</h3>
             <form method="POST" enctype="multipart/form-data" class="file-input-group">
                 <input type="file" name="file" required>
                 <button type="submit">Upload File</button>
@@ -224,7 +242,7 @@
         </div>
 
         <!-- File List -->
-        <h3 style="color: #1e293b; margin-bottom: 1rem;">Your Uploaded Files ({{ user.files|length }})</h3>
+        <h3 style="margin-bottom: 1rem;">Your Uploaded Files ({{ user.files|length }})</h3>
 
         <ul class="file-list">
             {% for file in user.files %}
@@ -234,15 +252,8 @@
                         <span>{{ file.filename.split('_', 1)[1] if '_' in file.filename else file.filename }}</span>
                     </div>
                     <div class="btn-group">
-                        <!-- View Button -->
-                        <a href="{{ url_for('view_file', filename=file.filename) }}" target="_blank" class="btn-view">
-                            👁️ View
-                        </a>
-                        <!-- Download Button -->
-                        <a href="{{ url_for('download_file', filename=file.filename) }}" class="btn-download">
-                            ⬇️ Download
-                        </a>
-                        <!-- Delete Form -->
+                        <a href="{{ url_for('view_file', filename=file.filename) }}" target="_blank" class="btn-view">👁️ View</a>
+                        <a href="{{ url_for('download_file', filename=file.filename) }}" class="btn-download">⬇️ Download</a>
                         <form action="{{ url_for('delete_file', filename=file.filename) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?');" style="display:inline;">
                             <button type="submit" class="btn-delete">🗑️ Delete</button>
                         </form>
@@ -262,5 +273,27 @@
         <p>Contact: <a href="mailto:hriydanshraghav19@gmail.com">hriydanshraghav19@gmail.com</a></p>
     </footer>
 
+    <script>
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        const themeBtn = document.getElementById('themeToggle');
+        
+        if (currentTheme === 'dark') {
+            themeBtn.textContent = '☀️ Light';
+        }
+
+        function toggleTheme() {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeBtn.textContent = '☀️ Light';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeBtn.textContent = '🌙 Dark';
+            }
+        }
+    </script>
 </body>
 </html>

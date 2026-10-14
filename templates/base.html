@@ -5,27 +5,94 @@
     <title>OnceStore</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
+        /* Theme Variables */
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --footer-text: #64748b;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --nav-bg: #1e293b;
+            --border-color: #334155;
+            --footer-text: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 1rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex: 1;
+            width: 90%;
+        }
+
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+
         footer {
             margin-top: 3rem;
             text-align: center;
             padding: 1rem;
-            color: #64748b;
+            color: var(--footer-text);
             font-size: 0.85rem;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
         }
         footer a {
             color: #3498db;
             text-decoration: none;
         }
-        footer a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <nav>
         <h2><a href="/">OnceStore</a></h2>
-        <div>
+        <div style="display: flex; align-items: center;">
+            <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>
             {% if session.get('user_id') %}
                 <a href="/dashboard">Dashboard</a>
                 <a href="/logout">Logout</a>
@@ -53,5 +120,28 @@
         <p>OnceStore &copy; 2026 | Developed by <strong>Hridyansh Raghav</strong></p>
         <p>Contact: <a href="mailto:hriydanshraghav19@gmail.com">hriydanshraghav19@gmail.com</a></p>
     </footer>
+
+    <script>
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        const themeBtn = document.getElementById('themeToggle');
+        
+        if (currentTheme === 'dark') {
+            themeBtn.textContent = '☀️ Light Mode';
+        }
+
+        function toggleTheme() {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeBtn.textContent = '☀️ Light Mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeBtn.textContent = '🌙 Dark Mode';
+            }
+        }
+    </script>
 </body>
 </html>

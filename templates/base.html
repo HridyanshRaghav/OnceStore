@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <title>OnceStore</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -30,5 +47,11 @@
 
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Developer Copyright Footer -->
+    <footer>
+        <p>OnceStore &copy; 2026 | Developed by <strong>Hridyansh Raghav</strong></p>
+        <p>Contact: <a href="mailto:hriydanshraghav19@gmail.com">hriydanshraghav19@gmail.com</a></p>
+    </footer>
 </body>
 </html>
